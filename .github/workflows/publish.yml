@@ -1,0 +1,78 @@
+name: Publish
+
+on:
+  push:
+    branches: [ "stable" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ningenMe/setup-rustup@v1.1.0
+    - run: sudo apt-get update
+    - run: sudo apt-get install -qq --yes --force-yes musl-tools gcc-mingw-w64 gcc-multilib gcc-mingw-w64-x86-64 gcc-mingw-w64-i686 clang-13 llvm-13 lld-13 llvm-dev gcc-mingw-w64-i686-win32 gcc-mingw-w64-x86-64-win32
+    - run: cargo install cargo-xwin --locked
+    - run: echo "XWIN_ARCH=x86,x86_64,aarch64,aarch" >> "$GITHUB_ENV"
+
+    - name: Create release dir
+      run: rm -fr target/github-release && mkdir -p target/github-release
+
+    - name: Build for x86_64-unknown-linux-gnu
+      run: rustup target add x86_64-unknown-linux-gnu &&
+           cargo build --verbose --release --target x86_64-unknown-linux-gnu &&
+           cp target/x86_64-unknown-linux-gnu/release/angle
+              target/github-release/angle.x86_64-unknown-linux-gnu
+
+    - name: Build for x86_64-unknown-linux-gnu
+      run: rustup target add x86_64-unknown-linux-musl &&
+           cargo build --verbose --release --target x86_64-unknown-linux-musl &&
+           cp target/x86_64-unknown-linux-musl/release/angle
+              target/github-release/angle.x86_64-unknown-linux-musl
+
+    - name: Build for i686-unknown-linux-gnu
+      run: rustup target add i686-unknown-linux-gnu &&
+           cargo build --verbose --release --target i686-unknown-linux-gnu &&
+           cp target/i686-unknown-linux-gnu/release/angle
+              target/github-release/angle.i686-unknown-linux-gnu
+
+    - name: Build for x86_64-pc-windows-gnu
+      run: rustup target add x86_64-pc-windows-gnu &&
+           cargo build --verbose --release --target x86_64-pc-windows-gnu &&
+           cp target/x86_64-pc-windows-gnu/release/angle.exe
+              target/github-release/angle.x86_64-pc-windows-gnu.exe
+
+    - name: Build for x86_64-pc-windows-msvc
+      run: rustup target add x86_64-pc-windows-msvc &&
+           cargo xwin build --verbose --release --target x86_64-pc-windows-msvc &&
+           cp target/x86_64-pc-windows-msvc/release/angle.exe
+              target/github-release/angle.x86_64-pc-windows-msvc.exe
+
+    - name: Build for i686-pc-windows-gnu
+      run: rustup target add i686-pc-windows-gnu &&
+           cargo build --verbose --release --target i686-pc-windows-gnu &&
+           cp target/i686-pc-windows-gnu/release/angle.exe
+              target/github-release/angle.i686-pc-windows-gnu.exe
+
+    - name: Build for i686-pc-windows-msvc
+      run: rustup target add i686-pc-windows-msvc &&
+           cargo xwin build --verbose --release --target i686-pc-windows-msvc &&
+           cp target/i686-pc-windows-msvc/release/angle.exe
+              target/github-release/angle.i686-pc-windows-msvc.exe
+
+    - uses: colathro/crate-version@2.0.0
+      id: crate-version
+
+    - uses: ncipollo/release-action@v1
+      with:
+        tag: v${{ steps.crate-version.outputs.version }}
+        artifacts: "target/github-release/*"
+        commit: stable
+        generateReleaseNotes: true
