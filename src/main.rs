@@ -257,10 +257,6 @@ fn main() {
                     eprintln!("/!\\ Cannot read directory: {why}");
                 }
             },
-            Err(why) if why.kind() == ErrorKind::NotADirectory => {
-                eprintln!("Provided output path is not a directory. Exiting.");
-                exit(1);
-            }
             Err(why) => {
                 eprintln!("/!\\ Cannot read directory: {why}");
             }
