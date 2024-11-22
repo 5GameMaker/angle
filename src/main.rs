@@ -1,7 +1,7 @@
 use std::{
     collections::HashMap,
     fs::{self, File},
-    io::{stdin, BufRead, Cursor, ErrorKind},
+    io::{stdin, BufRead, Cursor},
     mem::transmute,
     ops::Deref,
     process::{exit, Command, Stdio},
