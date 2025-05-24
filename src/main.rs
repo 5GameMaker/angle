@@ -52,6 +52,8 @@ pub struct FiguraModelPart {
     #[serde(default = "Default::default")]
     piv: [f32; 3],
     #[serde(default = "Default::default")]
+    rot: Option<[f32; 3]>,
+    #[serde(default = "Default::default")]
     cube_data: Option<FiguraModelBoxData>,
 }
 
@@ -130,6 +132,7 @@ pub struct BlockbenchModelPart {
     origin: [f32; 3],
     from: [f32; 3],
     to: [f32; 3],
+    rotation: Option<[f32; 3]>,
     faces: BlockbenchModelPartFaces,
 }
 
@@ -475,6 +478,7 @@ fn main() {
                                 origin: x.piv,
                                 from: x.f,
                                 to: x.t,
+                                rotation: x.rot,
                                 faces: BlockbenchModelPartFaces {
                                     up: BlockbenchModelPartFace::new(&data.u),
                                     down: BlockbenchModelPartFace::new(&data.d),
