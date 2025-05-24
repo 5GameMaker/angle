@@ -316,7 +316,7 @@ fn main() {
             slice::from_raw_parts(content.as_ptr() as *const _ as *const u8, content.len())
         };
         if let Err(why) = fs::write(args.outdir.join(format!("{file}.lua")), content) {
-            eprintln!("Failed to save {}.lua: {why}", file);
+            eprintln!("Failed to save {file}.lua: {why}");
             detected_failure = true;
         }
     }
@@ -351,7 +351,7 @@ fn main() {
             slice::from_raw_parts(content.as_ptr() as *const _ as *const u8, content.len())
         };
         if let Err(why) = fs::write(args.outdir.join(format!("{file}.png")), content) {
-            eprintln!("Failed to save {}.png: {why}", file);
+            eprintln!("Failed to save {file}.png: {why}");
             detected_failure = true;
         }
     }
