@@ -7,7 +7,7 @@
 
 Angle allows you to extract a full avatar from a .moon file. If
 you have an avatar uploaded to the cloud, but lost the sources,
-you can use `/figura export avatar avatar` to get the ~~.moon~~ .nbt file and then run
+you can use `/figura export avatar avatar` to get the .nbt file and then run
 `$ angle avatar.nbt avatars/avatar` to get it back.
 
 Keep in mind that we cannot restore what is not stored (i.e. blockbench settings are
@@ -64,4 +64,4 @@ If you need unsupported features, know how to code and they aren't blacklisted,
 feel free to PR them.
 
 (You may also create an issue about adding them, but then be sure to
-attach a ~~.moon~~ .nbt file as well an original blockbench model).
+attach a .nbt file as well an original blockbench model).
