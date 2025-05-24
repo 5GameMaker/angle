@@ -1,7 +1,7 @@
 use std::{
     collections::HashMap,
     fs::{self, File},
-    io::{stdin, BufRead, Cursor, ErrorKind},
+    io::{stdin, BufRead, Cursor},
     mem::transmute,
     ops::Deref,
     process::{exit, Command, Stdio},
@@ -51,6 +51,8 @@ pub struct FiguraModelPart {
     t: [f32; 3],
     #[serde(default = "Default::default")]
     piv: [f32; 3],
+    #[serde(default = "Default::default")]
+    rot: Option<[f32; 3]>,
     #[serde(default = "Default::default")]
     cube_data: Option<FiguraModelBoxData>,
 }
@@ -130,6 +132,7 @@ pub struct BlockbenchModelPart {
     origin: [f32; 3],
     from: [f32; 3],
     to: [f32; 3],
+    rotation: Option<[f32; 3]>,
     faces: BlockbenchModelPartFaces,
 }
 
@@ -313,7 +316,7 @@ fn main() {
             slice::from_raw_parts(content.as_ptr() as *const _ as *const u8, content.len())
         };
         if let Err(why) = fs::write(args.outdir.join(format!("{file}.lua")), content) {
-            eprintln!("Failed to save {}.lua: {why}", file);
+            eprintln!("Failed to save {file}.lua: {why}");
             detected_failure = true;
         }
     }
@@ -348,7 +351,7 @@ fn main() {
             slice::from_raw_parts(content.as_ptr() as *const _ as *const u8, content.len())
         };
         if let Err(why) = fs::write(args.outdir.join(format!("{file}.png")), content) {
-            eprintln!("Failed to save {}.png: {why}", file);
+            eprintln!("Failed to save {file}.png: {why}");
             detected_failure = true;
         }
     }
@@ -475,6 +478,7 @@ fn main() {
                                 origin: x.piv,
                                 from: x.f,
                                 to: x.t,
+                                rotation: x.rot,
                                 faces: BlockbenchModelPartFaces {
                                     up: BlockbenchModelPartFace::new(&data.u),
                                     down: BlockbenchModelPartFace::new(&data.d),
