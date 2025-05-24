@@ -5,10 +5,10 @@
 
 \- a figura mod
 
-Angle allows you to extract a full profile from a .moon file. If
-you have a profile loaded on server, but you have lost the sources,
-you can use `/figura export avatar avatar` to get the ~~.moon~~ .nbt file and then do
-`$ angle avatar.nbt path/to/figura/avatars/avatar` to get them back.
+Angle allows you to extract a full avatar from a .moon file. If
+you have an avatar uploaded to the cloud, but lost the sources,
+you can use `/figura export avatar avatar` to get the ~~.moon~~ .nbt file and then run
+`$ angle avatar.nbt avatars/avatar` to get it back.
 
 Keep in mind that we cannot restore what is not stored (i.e. blockbench settings are
 lost).
