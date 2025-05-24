@@ -1,6 +1,6 @@
 [package]
 name = "angle"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 
 [dependencies]
@@ -8,6 +8,6 @@ base64 = "0.22.1"
 flate2 = "1.0.35"
 hematite-nbt = "0.5.2"
 png = "0.17.14"
-serde = { version = "1.0.215", features = ["derive"] }
+serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.133"
 uuid = { version = "1.11.0", features = ["rng", "v4"] }
