@@ -5,7 +5,7 @@
 
 \- a figura mod
 
-Angle allows you to extract a full avatar from a .moon file. If
+Angle allows you to extract an avatar from a .moon file including the model. If
 you have an avatar uploaded to the cloud, but lost the sources,
 you can use `/figura export avatar avatar` to get the .nbt file and then run
 `$ angle avatar.nbt avatars/avatar` to get it back.

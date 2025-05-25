@@ -441,7 +441,7 @@ fn main() {
         //
         //         Since we are never inserting things and are only
         //         pushing, all references we obtain stay valid for
-        //         their entire lifetime.
+        //         the entire lifetime of this scope.
         unsafe {
             let mut did_root = false;
             let mut is_cube = false;
@@ -518,45 +518,6 @@ fn main() {
                 }
             }
         }
-        //      // Safety: It's safe enough as far as my understanding of
-        //      //         this code goes. Borrow checker could not borrow
-        //      //         check this at the time, if it ever would.
-        //      //
-        //      //         Since we are never inserting things and are only
-        //      //         pushing, all references we obtain stay valid for
-        //      //         their entire lifetime.
-        //      unsafe {
-        //          let mut refs: Vec<&mut BlockbenchModelPart> = vec![];
-        //          let refs_ptr = &mut refs as *mut Vec<&mut BlockbenchModelPart>;
-        //          let outliner_ptr = &mut outliner as *mut Option<_>;
-        //          for s in Walk::new(&model, |x| x.chld.iter()) {
-        //              match s {
-        //                  WalkStage::Enter(item) => {
-        //                      let part = BlockbenchModelPart {
-        //                          name: item.name.clone(),
-        //                          uuid: Uuid::new_v4().as_hyphenated().to_string().into(),
-        //                          origin: item.piv,
-        //                          is_open: true,
-        //                          children: vec![],
-        //                      };
-        //                      let ptr = match refs_ptr.as_mut().unwrap().last_mut() {
-        //                          Some(x) => {
-        //                              x.children.push(part);
-        //                              x.children.last_mut().unwrap()
-        //                          }
-        //                          None => {
-        //                              assert!(outliner_ptr.as_mut().unwrap().replace(part).is_none());
-        //                              outliner_ptr.as_mut().unwrap().as_mut().unwrap()
-        //                          }
-        //                      };
-        //                      refs_ptr.as_mut().unwrap().push(ptr);
-        //                  }
-        //                  WalkStage::Leave => {
-        //                      assert!(refs_ptr.as_mut().unwrap().pop().is_some());
-        //                  }
-        //              }
-        //          }
-        //      }
 
         if let Err(why) = serde_json::to_writer(
             w,
